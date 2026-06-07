@@ -56,7 +56,7 @@ export default function AuthPage() {
         setSuccess('Account created successfully! Redirecting...');
         setTimeout(() => router.push('/dashboard'), 1200);
       } else {
-        await signIn({ email, password });
+        await signIn(email, password);
         router.push('/dashboard');
       }
     } catch (err) {
