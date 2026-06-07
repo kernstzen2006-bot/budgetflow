@@ -1,0 +1,864 @@
+/* ==========================================================================
+   Analytics.module.css – BudgetFlow Analytics Page Styles
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Keyframes
+   -------------------------------------------------------------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes ringDraw {
+  from {
+    stroke-dashoffset: var(--ring-circumference, 314);
+  }
+  to {
+    stroke-dashoffset: var(--ring-offset, 0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.5));
+  }
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Page Container
+   -------------------------------------------------------------------------- */
+.analyticsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 100px;
+}
+
+/* --------------------------------------------------------------------------
+   Section Header
+   -------------------------------------------------------------------------- */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* --------------------------------------------------------------------------
+   Date Range Selector
+   -------------------------------------------------------------------------- */
+.dateRangeSelector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 4px;
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.rangePill {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.rangePill:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.rangePillActive {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.35);
+  font-weight: 600;
+}
+
+.rangePillActive:hover {
+  background: var(--accent-gradient);
+  color: #fff;
+  transform: scale(1.03);
+}
+
+/* --------------------------------------------------------------------------
+   Charts Grid
+   -------------------------------------------------------------------------- */
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Glass Card
+   -------------------------------------------------------------------------- */
+.glassCard {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    border-color var(--transition-normal);
+  animation: fadeInUp 0.5s ease-out both;
+  position: relative;
+  overflow: hidden;
+}
+
+.glassCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(99, 102, 241, 0.3),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.glassCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.glassCard:hover::before {
+  opacity: 1;
+}
+
+/* Staggered animation delays for cards */
+.delay1 { animation-delay: 0.05s; }
+.delay2 { animation-delay: 0.1s; }
+.delay3 { animation-delay: 0.15s; }
+.delay4 { animation-delay: 0.2s; }
+.delay5 { animation-delay: 0.25s; }
+.delay6 { animation-delay: 0.3s; }
+
+/* Full-width card (spans 2 columns) */
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+/* --------------------------------------------------------------------------
+   Card Header
+   -------------------------------------------------------------------------- */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardTitleIcon {
+  font-size: 1.1rem;
+}
+
+.cardSubtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* --------------------------------------------------------------------------
+   Chart Container
+   -------------------------------------------------------------------------- */
+.chartContainer {
+  width: 100%;
+  height: 300px;
+  position: relative;
+}
+
+.chartContainerTall {
+  height: 350px;
+}
+
+.chartContainerShort {
+  height: 260px;
+}
+
+/* --------------------------------------------------------------------------
+   Donut Chart Center Label
+   -------------------------------------------------------------------------- */
+.donutWrapper {
+  position: relative;
+}
+
+.donutCenterLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  text-align: center;
+  pointer-events: none;
+  animation: countUp 0.6s ease-out 0.3s both;
+}
+
+.donutCenterAmount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.donutCenterSubtext {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Category Legend (below donut)
+   -------------------------------------------------------------------------- */
+.categoryLegend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+  cursor: default;
+}
+
+.legendItem:hover {
+  background: var(--bg-hover);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendIcon {
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.legendText {
+  flex: 1;
+  min-width: 0;
+}
+
+.legendName {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.legendAmount {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Custom Recharts Tooltip
+   -------------------------------------------------------------------------- */
+.customTooltip {
+  background: rgba(17, 24, 39, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  box-shadow: var(--shadow-lg);
+  min-width: 140px;
+}
+
+.tooltipLabel {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 3px 0;
+}
+
+.tooltipDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tooltipName {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tooltipValue {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tooltipPercent {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Savings Rate Card
+   -------------------------------------------------------------------------- */
+.savingsCard {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.savingsRingWrapper {
+  position: relative;
+  flex-shrink: 0;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.savingsRing {
+  transform: rotate(-90deg);
+}
+
+.savingsRingBg {
+  fill: none;
+  stroke: var(--bg-tertiary);
+  stroke-width: 8;
+}
+
+.savingsRingFill {
+  fill: none;
+  stroke: url(#savingsGradient);
+  stroke-width: 8;
+  stroke-linecap: round;
+  animation: ringDraw 1.2s ease-out 0.4s both;
+}
+
+.savingsRingCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.savingsPercent {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  animation: countUp 0.6s ease-out 0.5s both;
+}
+
+.savingsPercentSymbol {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.savingsDetails {
+  flex: 1;
+  min-width: 180px;
+}
+
+.savingsTitle {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.savingsAmount {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  animation: countUp 0.6s ease-out 0.6s both;
+}
+
+.savingsTrend {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.trendUp {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--accent-success);
+}
+
+.trendDown {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--accent-danger);
+}
+
+.trendNeutral {
+  background: rgba(100, 116, 139, 0.12);
+  color: var(--text-muted);
+}
+
+.savingsBreakdown {
+  display: flex;
+  gap: 20px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.breakdownItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.breakdownLabel {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.breakdownValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Top Spending Categories
+   -------------------------------------------------------------------------- */
+.topCategoriesList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.topCategoryItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.topCategoryItem:hover {
+  background: var(--bg-hover);
+}
+
+.topCategoryRank {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  flex-shrink: 0;
+}
+
+.topCategoryRank:nth-child(1) {
+  color: #fbbf24;
+}
+
+.topCategoryIcon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.topCategoryInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.topCategoryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.topCategoryName {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.topCategoryAmount {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.topCategoryBarBg {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.topCategoryBarFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.topCategoryBarFill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15));
+  border-radius: 0 3px 3px 0;
+}
+
+.topCategoryPercent {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Loading / Empty States
+   -------------------------------------------------------------------------- */
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--bg-tertiary);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingText {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.emptyTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.emptyText {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 360px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   Summary Stats Row
+   -------------------------------------------------------------------------- */
+.summaryRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  animation: fadeInUp 0.5s ease-out 0.05s both;
+}
+
+@media (max-width: 640px) {
+  .summaryRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.summaryCard {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.summaryCard:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.summaryIconBox {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.summaryIconIncome {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--accent-primary);
+}
+
+.summaryIconExpense {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--accent-danger);
+}
+
+.summaryIconNet {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--accent-success);
+}
+
+.summaryInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summaryLabel {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.summaryValue {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Adjustments
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .analyticsContainer {
+    gap: 16px;
+  }
+
+  .dateRangeSelector {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .dateRangeSelector::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rangePill {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .glassCard {
+    padding: 18px;
+  }
+
+  .chartContainer {
+    height: 260px;
+  }
+
+  .chartContainerTall {
+    height: 300px;
+  }
+
+  .categoryLegend {
+    grid-template-columns: 1fr;
+  }
+
+  .savingsCard {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .savingsDetails {
+    text-align: center;
+  }
+
+  .savingsBreakdown {
+    justify-content: center;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .summaryRow {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .donutCenterAmount {
+    font-size: 1.2rem;
+  }
+
+  .savingsPercent {
+    font-size: 1.3rem;
+  }
+}

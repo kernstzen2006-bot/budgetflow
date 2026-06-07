@@ -1,0 +1,579 @@
+/* ═══════════════════════════════════════════
+   Income.module.css – BudgetFlow Income Page
+   ═══════════════════════════════════════════ */
+
+/* ── keyframes ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 12px rgba(99, 102, 241, 0.25); }
+  50% { box-shadow: 0 0 24px rgba(99, 102, 241, 0.5); }
+}
+
+/* ── page wrapper ── */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeInUp 0.45s ease-out both;
+}
+
+/* ═══════════════════════════════════════════
+   1 – Hourly Rate Badge
+   ═══════════════════════════════════════════ */
+.rateCard {
+  position: relative;
+  padding: 2px;
+  border-radius: var(--radius-lg);
+  background: var(--accent-gradient);
+  width: fit-content;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.rateInner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px;
+  border-radius: calc(var(--radius-lg) - 2px);
+  background: var(--bg-secondary);
+}
+
+.rateLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.rateDisplay {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rateValue {
+  font-size: 1.35rem;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rateEditBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.rateEditBtn:hover {
+  background: var(--bg-hover);
+  transform: scale(1.15);
+}
+
+/* ── inline edit ── */
+.rateEditRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rateInputWrap {
+  display: flex;
+  align-items: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0 10px;
+  gap: 4px;
+}
+
+.currencySign {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.rateInput {
+  width: 80px;
+  padding: 6px 4px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.rateInput::-webkit-inner-spin-button,
+.rateInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.rateSaveBtn,
+.rateCancelBtn {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.rateSaveBtn {
+  background: var(--accent-success);
+  color: #fff;
+}
+
+.rateSaveBtn:hover {
+  filter: brightness(1.15);
+  transform: scale(1.08);
+}
+
+.rateCancelBtn {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+.rateCancelBtn:hover {
+  background: var(--accent-danger);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+/* ═══════════════════════════════════════════
+   2 – Month Selector
+   ═══════════════════════════════════════════ */
+.monthSelector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  animation: fadeInUp 0.5s ease-out 0.08s both;
+}
+
+.monthArrow {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.monthArrow:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--accent-primary);
+  transform: scale(1.1);
+}
+
+.monthArrowDisabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.monthLabel {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 180px;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════
+   3 – Monthly Summary Card
+   ═══════════════════════════════════════════ */
+.summaryCard {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-md);
+  animation: fadeInUp 0.5s ease-out 0.14s both;
+}
+
+.summaryTitle {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 20px;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summaryItemLabel {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.summaryItemValue {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.actualValue {
+  color: var(--accent-success);
+}
+
+/* comparison bars */
+.barTrack {
+  height: 8px;
+  border-radius: 100px;
+  background: var(--bg-tertiary);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.barEstimated {
+  background: var(--accent-gradient);
+}
+
+.barActual {
+  background: linear-gradient(135deg, var(--accent-success), #34d399);
+}
+
+/* ═══════════════════════════════════════════
+   4 – Two-column Layout
+   ═══════════════════════════════════════════ */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  animation: fadeInUp 0.5s ease-out 0.2s both;
+}
+
+/* ── section (shifts / paychecks) ── */
+.section {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sectionTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.countBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 100px;
+  background: var(--accent-gradient);
+  color: #fff;
+  line-height: 1.6;
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--accent-gradient);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.addBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+.addBtnIcon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* ── list ── */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── card row ── */
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+.card:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-color);
+  transform: translateY(-2px);
+}
+
+.cardMain {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cardLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cardDate {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cardPeriod {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.cardNotes {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.incomeTypeBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  width: fit-content;
+  margin-top: 2px;
+}
+
+.cardRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.hoursChip {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 100px;
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--accent-tertiary);
+}
+
+.cardRate {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.cardEarnings {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-success);
+}
+
+.paycheckAmount {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent-success);
+}
+
+/* ── delete button ── */
+.deleteBtn {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  cursor: pointer;
+  opacity: 0.3;
+  transition: opacity var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.card:hover .deleteBtn {
+  opacity: 0.7;
+}
+
+.deleteBtn:hover {
+  opacity: 1 !important;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.3);
+  transform: scale(1.12);
+}
+
+/* ── empty state ── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  gap: 12px;
+}
+
+.emptyEmoji {
+  font-size: 2.4rem;
+  line-height: 1;
+  animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+.emptyText {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── loader / spinner ── */
+.loader {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ═══════════════════════════════════════════
+   5 – Responsive
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryGrid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .rateInner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .cardMain {
+    flex-direction: column;
+  }
+
+  .cardRight {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

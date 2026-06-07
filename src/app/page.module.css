@@ -1,0 +1,459 @@
+/* ============================================
+   Auth Page - Login / Sign Up
+   Premium glassmorphism auth experience
+   ============================================ */
+
+.authPage {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+}
+
+/* --- Animated Mesh Background --- */
+.bgMesh {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bgOrb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: float 8s ease-in-out infinite;
+}
+
+.bgOrb:nth-child(1) {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.35), transparent 70%);
+  top: -10%;
+  left: -5%;
+  animation-duration: 10s;
+}
+
+.bgOrb:nth-child(2) {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent 70%);
+  top: 50%;
+  right: -10%;
+  animation-duration: 12s;
+  animation-delay: -3s;
+}
+
+.bgOrb:nth-child(3) {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.2), transparent 70%);
+  bottom: -5%;
+  left: 30%;
+  animation-duration: 14s;
+  animation-delay: -6s;
+}
+
+.bgOrb:nth-child(4) {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.25), transparent 70%);
+  top: 20%;
+  left: 60%;
+  animation-duration: 9s;
+  animation-delay: -2s;
+}
+
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+}
+
+/* --- Auth Card --- */
+.authCard {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 40px 36px;
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.authCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.2),
+    transparent 40%,
+    transparent 60%,
+    rgba(139, 92, 246, 0.15)
+  );
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+/* --- Logo Area --- */
+.logoArea {
+  text-align: center;
+  margin-bottom: 8px;
+  animation: slideDown 0.5s ease-out 0.15s both;
+}
+
+.logoIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: var(--accent-gradient);
+  margin-bottom: 16px;
+  box-shadow: 0 0 24px rgba(99, 102, 241, 0.25);
+  animation: float 4s ease-in-out infinite;
+}
+
+.logoIcon svg {
+  width: 28px;
+  height: 28px;
+  color: white;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.logoText {
+  font-size: 28px;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.tagline {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* --- Tab Toggle --- */
+.tabToggle {
+  display: flex;
+  position: relative;
+  background: var(--bg-input);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  margin: 28px 0 24px;
+  border: 1px solid var(--border-subtle);
+  animation: slideUp 0.5s ease-out 0.25s both;
+}
+
+.tabBtn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-radius: var(--radius-full);
+  text-align: center;
+  transition:
+    color var(--transition-normal),
+    transform var(--transition-fast);
+  position: relative;
+  z-index: 1;
+}
+
+.tabBtn:hover {
+  color: var(--text-secondary);
+}
+
+.tabBtn:active {
+  transform: scale(0.97);
+}
+
+.tabBtnActive {
+  color: var(--text-primary) !important;
+}
+
+.tabIndicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  width: calc(50% - 4px);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-spring);
+  z-index: 0;
+}
+
+.tabIndicatorRight {
+  transform: translateX(calc(100% + 4px));
+}
+
+/* --- Form --- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.4s ease-out 0.35s both;
+}
+
+.inputGroup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color var(--transition-normal);
+  z-index: 1;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 400;
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background var(--transition-normal);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.input:hover {
+  border-color: rgba(99, 102, 241, 0.25);
+  background: rgba(30, 41, 59, 0.75);
+}
+
+.input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12), var(--shadow-glow);
+  background: rgba(30, 41, 59, 0.9);
+}
+
+.input:focus ~ .inputIcon,
+.input:focus + .inputIcon {
+  color: var(--accent-primary);
+}
+
+/* Hourly rate prefix */
+.inputPrefix {
+  position: absolute;
+  left: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  pointer-events: none;
+  z-index: 1;
+  transition: color var(--transition-normal);
+}
+
+.inputWithPrefix {
+  padding-left: 32px;
+}
+
+/* --- Submit Button --- */
+.submitBtn {
+  position: relative;
+  width: 100%;
+  padding: 13px 24px;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  background: var(--accent-gradient);
+  background-size: 200% 200%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm), 0 0 16px rgba(99, 102, 241, 0.15);
+  transition:
+    box-shadow var(--transition-normal),
+    transform var(--transition-fast),
+    filter var(--transition-normal);
+  overflow: hidden;
+  letter-spacing: 0.3px;
+}
+
+.submitBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.submitBtn:hover {
+  box-shadow: var(--shadow-md), var(--shadow-glow-lg);
+  filter: brightness(1.08);
+}
+
+.submitBtn:hover::before {
+  opacity: 1;
+}
+
+.submitBtn:active {
+  transform: scale(0.975);
+  box-shadow: var(--shadow-sm);
+}
+
+.submitBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+/* --- Loading Spinner --- */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255, 255, 255, 0.25);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.btnContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* --- Messages --- */
+.errorMsg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-md);
+  color: #fca5a5;
+  font-size: 13px;
+  font-weight: 500;
+  animation: slideUp 0.3s ease-out;
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--accent-danger);
+}
+
+.successMsg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-md);
+  color: #6ee7b7;
+  font-size: 13px;
+  font-weight: 500;
+  animation: slideUp 0.3s ease-out;
+}
+
+.successIcon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--accent-success);
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+  .authCard {
+    padding: 32px 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .logoText {
+    font-size: 24px;
+  }
+
+  .logoIcon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .logoIcon svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Subtle background animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.02);
+  }
+}

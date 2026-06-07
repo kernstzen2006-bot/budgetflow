@@ -1,0 +1,560 @@
+/* =============================================================
+   AddExpenseModal – CSS Module
+   BudgetFlow PWA · Premium glassmorphism modal
+   ============================================================= */
+
+/* ── Overlay ────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: overlayFadeIn 0.25s ease-out both;
+}
+
+.overlayHidden {
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ── Modal Card ─────────────────────────────────────────────── */
+.modal {
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: modalScaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.2) transparent;
+}
+
+.modal::-webkit-scrollbar {
+  width: 5px;
+}
+
+.modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 10px;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.closeBtn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.closeBtn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--accent-danger);
+  transform: rotate(90deg);
+}
+
+.closeBtn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Quick Amount Buttons ───────────────────────────────────── */
+.quickAmountSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quickAmountLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.quickAmountRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quickAmountBtn {
+  padding: 7px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.quickAmountBtn:hover {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--accent-tertiary);
+  transform: translateY(-1px);
+}
+
+.quickAmountBtn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.quickAmountBtnActive {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.18);
+  color: var(--accent-tertiary);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.1);
+}
+
+/* ── Form ───────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formLabel {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.amountInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.amountPrefix {
+  position: absolute;
+  left: 16px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.amountInput {
+  width: 100%;
+  padding: 14px 16px 14px 36px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-family: inherit;
+  outline: none;
+  transition: all var(--transition-normal);
+  letter-spacing: -0.01em;
+}
+
+.amountInput::placeholder {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.amountInput:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.amountInput:focus ~ .amountPrefix,
+.amountInputWrapper:focus-within .amountPrefix {
+  color: var(--accent-primary);
+}
+
+.textInput {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-family: inherit;
+  outline: none;
+  transition: all var(--transition-normal);
+}
+
+.textInput::placeholder {
+  color: var(--text-muted);
+}
+
+.textInput:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* ── Custom Category Selector ───────────────────────────────── */
+.categorySelectorWrapper {
+  position: relative;
+}
+
+.categorySelectorTrigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-align: left;
+}
+
+.categorySelectorTrigger:hover {
+  border-color: var(--border-color);
+}
+
+.categorySelectorTriggerOpen {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.categorySelectorIcon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.categorySelectorColorDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.categorySelectorText {
+  flex: 1;
+}
+
+.categorySelectorPlaceholder {
+  color: var(--text-muted);
+}
+
+.categorySelectorArrow {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.categorySelectorArrowOpen {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown List ──────────────────────────────────────────── */
+.categoryDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 10;
+  padding: 6px;
+  animation: dropdownSlideIn 0.2s ease-out both;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.2) transparent;
+}
+
+.categoryDropdown::-webkit-scrollbar {
+  width: 4px;
+}
+
+.categoryDropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.categoryDropdown::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 10px;
+}
+
+.categoryOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background var(--transition-fast);
+}
+
+.categoryOption:hover {
+  background: var(--bg-hover);
+}
+
+.categoryOptionSelected {
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.categoryOptionIcon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.categoryOptionDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.categoryOptionName {
+  flex: 1;
+}
+
+.categoryOptionCheck {
+  width: 14px;
+  height: 14px;
+  color: var(--accent-primary);
+}
+
+/* ── Date Input ─────────────────────────────────────────────── */
+.dateInput {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.dateInput:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+/* ── Footer Buttons ─────────────────────────────────────────── */
+.footer {
+  display: flex;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 11px 18px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.saveBtn {
+  flex: 1.5;
+  padding: 11px 18px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--accent-gradient);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.saveBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+}
+
+.saveBtn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.saveBtnSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+/* ── Error Message ──────────────────────────────────────────── */
+.errorMsg {
+  padding: 10px 14px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-sm);
+  color: #f87171;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.errorMsg svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 500px) {
+  .modal {
+    padding: 22px 18px;
+    border-radius: var(--radius-lg);
+    gap: 18px;
+  }
+
+  .amountInput {
+    font-size: 1.3rem;
+    padding: 12px 14px 12px 30px;
+  }
+
+  .amountPrefix {
+    font-size: 1.3rem;
+    left: 14px;
+  }
+
+  .quickAmountRow {
+    gap: 6px;
+  }
+
+  .quickAmountBtn {
+    padding: 6px 11px;
+    font-size: 0.75rem;
+  }
+}

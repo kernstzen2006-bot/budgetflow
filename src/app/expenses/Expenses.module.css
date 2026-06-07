@@ -1,0 +1,700 @@
+/* =============================================================
+   Expenses Page – CSS Module
+   BudgetFlow PWA · Premium dark theme with glassmorphism
+   ============================================================= */
+
+/* ── Page wrapper ───────────────────────────────────────────── */
+.expensesPage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 100px; /* room for FAB + mobile nav */
+}
+
+/* ── Top Summary Bar ────────────────────────────────────────── */
+.summaryBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  animation: fadeSlideIn 0.45s ease-out both;
+}
+
+.summaryLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summaryLabel {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.summaryAmount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.comparisonBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 6px;
+  width: fit-content;
+}
+
+.badgeUp {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.badgeDown {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.badgeNeutral {
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--text-secondary);
+}
+
+.summaryRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.topCategoriesLabel {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.topCategoriesList {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.topCategoryChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.topCategoryDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Category Filter Bar ────────────────────────────────────── */
+.filterBar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  animation: fadeSlideIn 0.5s ease-out 0.05s both;
+}
+
+.filterBar::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-normal);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.categoryChip:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.categoryChipActive {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: var(--accent-primary);
+  color: var(--accent-tertiary);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.12);
+}
+
+.categoryChipIcon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.categoryChipColorBar {
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Search / Date Filter Section ───────────────────────────── */
+.searchFilterSection {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  animation: fadeSlideIn 0.55s ease-out 0.1s both;
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  transition: all var(--transition-normal);
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+.searchInput:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.searchInput:focus ~ .searchIcon,
+.searchWrapper:focus-within .searchIcon {
+  color: var(--accent-primary);
+}
+
+.dateFilter {
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.dateFilter:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.dateFilter option {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* ── Date Group ─────────────────────────────────────────────── */
+.dateGroup {
+  animation: fadeSlideIn 0.4s ease-out both;
+}
+
+.dateGroupHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0 10px;
+}
+
+.dateGroupTitle {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.dateGroupLine {
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.dateGroupTotal {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* ── Expense Row ────────────────────────────────────────────── */
+.expenseList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.expenseGroupItems {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.expenseRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: default;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.expenseRow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.04), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.expenseRow:hover {
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.expenseRow:hover::before {
+  opacity: 1;
+}
+
+.expenseCategoryIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.expenseInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: relative;
+  z-index: 1;
+}
+
+.expenseDescription {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expenseCategory {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.expenseCategoryDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.expenseRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.expenseAmount {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent-danger);
+  white-space: nowrap;
+}
+
+.expenseDate {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.deleteBtn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: var(--radius-sm);
+  color: var(--accent-danger);
+  cursor: pointer;
+  opacity: 0;
+  transition: all var(--transition-normal);
+  z-index: 2;
+}
+
+.deleteBtn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.expenseRow:hover .deleteBtn {
+  opacity: 1;
+}
+
+.deleteBtn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ── Mobile: swipe-style delete always visible ──────────────── */
+@media (hover: none) and (pointer: coarse) {
+  .deleteBtn {
+    opacity: 0.7;
+  }
+}
+
+/* ── Empty State ────────────────────────────────────────────── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  text-align: center;
+  animation: fadeSlideIn 0.5s ease-out both;
+}
+
+.emptyIcon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  opacity: 0.6;
+  animation: floatPulse 3s ease-in-out infinite;
+}
+
+.emptyTitle {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.emptyDescription {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 280px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.emptyAddBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: var(--accent-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+}
+
+.emptyAddBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+}
+
+.emptyAddBtn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ── Floating Add Button ────────────────────────────────────── */
+.fab {
+  position: fixed;
+  bottom: 96px;
+  right: 28px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35), var(--shadow-glow);
+  transition: all var(--transition-normal);
+  z-index: 100;
+  animation: fabBounceIn 0.6s var(--transition-spring) both;
+  animation-delay: 0.3s;
+}
+
+.fab:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 6px 28px rgba(99, 102, 241, 0.45), 0 0 30px rgba(99, 102, 241, 0.2);
+}
+
+.fab:active {
+  transform: scale(0.95) rotate(90deg);
+}
+
+.fab svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.5;
+}
+
+/* Desktop: raise FAB higher above nav */
+@media (min-width: 769px) {
+  .fab {
+    bottom: 36px;
+    right: 36px;
+  }
+}
+
+/* ── Loading Skeleton ───────────────────────────────────────── */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 0;
+}
+
+.skeletonRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeletonIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.skeletonLines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeletonLine {
+  height: 10px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.skeletonLine:first-child {
+  width: 60%;
+}
+
+.skeletonLine:last-child {
+  width: 35%;
+}
+
+.skeletonAmount {
+  width: 60px;
+  height: 14px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  margin-left: auto;
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fabBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0) translateY(30px);
+  }
+  60% {
+    transform: scale(1.15) translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes floatPulse {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes skeletonPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .summaryBar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+  }
+
+  .summaryRight {
+    align-items: flex-start;
+  }
+
+  .summaryAmount {
+    font-size: 1.6rem;
+  }
+
+  .searchFilterSection {
+    flex-direction: column;
+  }
+
+  .dateFilter {
+    width: 100%;
+  }
+
+  .expenseRow {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .expenseCategoryIcon {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+  }
+
+  .fab {
+    bottom: 84px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+  }
+}
