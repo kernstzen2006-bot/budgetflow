@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import styles from './Dashboard.module.css';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
-import { formatCurrency, formatDate } from '@/lib/utils';
+import { formatCurrency, formatDate, getPayCycle } from '@/lib/utils';
 import AppLayout from '@/components/AppLayout';
 import Link from 'next/link';
 
@@ -44,18 +44,15 @@ export default function DashboardPage() {
       setLoading(true);
 
       const now = new Date();
-      const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1)
-        .toISOString()
-        .split('T')[0];
-      const thisMonthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0)
-        .toISOString()
-        .split('T')[0];
-      const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-        .toISOString()
-        .split('T')[0];
-      const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
-        .toISOString()
-        .split('T')[0];
+      const currentCycle = getPayCycle(now);
+      const thisMonthStart = currentCycle.start;
+      const thisMonthEnd = currentCycle.end;
+      
+      const lastMonthAnchor = new Date(currentCycle.anchorMonth);
+      lastMonthAnchor.setMonth(lastMonthAnchor.getMonth() - 1);
+      const lastCycle = getPayCycle(lastMonthAnchor);
+      const lastMonthStart = lastCycle.start;
+      const lastMonthEnd = lastCycle.end;
 
       const [
         paychecksThisMonth,

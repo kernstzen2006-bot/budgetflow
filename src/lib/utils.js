@@ -48,14 +48,31 @@ export function formatDateShort(dateString) {
 }
 
 /**
- * Get the start and end Date objects for the current calendar month.
- * @returns {{ start: Date, end: Date }}
+ * Get the custom 25th-to-24th pay cycle for a given date.
+ * If date is < 25, cycle is 25th of previous month to 24th of current month.
+ * If date >= 25, cycle is 25th of current month to 24th of next month.
+ * @param {Date|string} dateInput
+ * @returns {{ start: string, end: string, anchorMonth: Date }}
  */
-export function getMonthRange() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), 1);
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-  return { start, end };
+export function getPayCycle(dateInput = new Date()) {
+  const d = new Date(dateInput);
+  let start, end, anchorMonth;
+
+  if (d.getDate() >= 25) {
+    start = new Date(d.getFullYear(), d.getMonth(), 25);
+    end = new Date(d.getFullYear(), d.getMonth() + 1, 24, 23, 59, 59, 999);
+    anchorMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+  } else {
+    start = new Date(d.getFullYear(), d.getMonth() - 1, 25);
+    end = new Date(d.getFullYear(), d.getMonth(), 24, 23, 59, 59, 999);
+    anchorMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+  }
+
+  return {
+    start: start.toISOString().split('T')[0],
+    end: end.toISOString().split('T')[0],
+    anchorMonth,
+  };
 }
 
 /**

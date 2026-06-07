@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
-import { formatCurrency, getMonthName } from '@/lib/utils'
+import { formatCurrency, getMonthName, getPayCycle } from '@/lib/utils'
 import AppLayout from '@/components/AppLayout'
 import AddExpenseModal from '@/components/AddExpenseModal'
 import styles from './Expenses.module.css'
@@ -63,13 +63,18 @@ export default function Expenses() {
       const now = new Date()
       
       if (dateFilter === 'This Month') {
-        if (expDate.getMonth() !== now.getMonth() || expDate.getFullYear() !== now.getFullYear()) return false
+        const { start, end } = getPayCycle(new Date())
+        if (exp.date < start || exp.date > end) return false
       } else if (dateFilter === 'Last Month') {
-        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-        if (expDate.getMonth() !== lastMonth.getMonth() || expDate.getFullYear() !== lastMonth.getFullYear()) return false
+        const currentAnchor = getPayCycle(new Date()).anchorMonth
+        const lastMonthDate = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 1, 1)
+        const { start, end } = getPayCycle(lastMonthDate)
+        if (exp.date < start || exp.date > end) return false
       } else if (dateFilter === 'Last 3 Months') {
-        const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1)
-        if (expDate < threeMonthsAgo) return false
+        const currentAnchor = getPayCycle(new Date()).anchorMonth
+        const threeMonthsAgoDate = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 3, 1)
+        const { start } = getPayCycle(threeMonthsAgoDate)
+        if (exp.date < start) return false
       }
 
       return true

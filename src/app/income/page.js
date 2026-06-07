@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import styles from './Income.module.css';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
-import { formatCurrency, formatDate } from '@/lib/utils';
+import { formatCurrency, formatDate, getPayCycle } from '@/lib/utils';
 import AppLayout from '@/components/AppLayout';
 import AddShiftModal from '@/components/AddShiftModal';
 import AddPaycheckModal from '@/components/AddPaycheckModal';
@@ -23,28 +23,15 @@ export default function IncomePage() {
   const [showPaycheckModal, setShowPaycheckModal] = useState(false);
 
   /* ── helpers ── */
-  const getMonthRange = useCallback((date) => {
-    const start = new Date(date.getFullYear(), date.getMonth(), 1);
-    const end = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
-    return {
-      start: start.toISOString().split('T')[0],
-      end: end.toISOString().split('T')[0],
-    };
-  }, []);
-
-  const formatMonthYear = (date) =>
-    date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-  const isCurrentMonth = (date) => {
-    const now = new Date();
-    return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+  const formatMonthYear = (date) => {
+    const { anchorMonth } = getPayCycle(date);
+    return anchorMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
   };
 
   const isFutureMonth = (date) => {
-    const now = new Date();
-    const check = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-    const current = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-    return check > current;
+    const { anchorMonth: targetAnchor } = getPayCycle(date);
+    const { anchorMonth: currentAnchor } = getPayCycle(new Date());
+    return targetAnchor > currentAnchor;
   };
 
   /* ── data fetching ── */
@@ -64,7 +51,7 @@ export default function IncomePage() {
   const fetchData = useCallback(async () => {
     if (!user?.id) return;
     setLoading(true);
-    const { start, end } = getMonthRange(selectedMonth);
+    const { start, end } = getPayCycle(selectedMonth);
 
     const [shiftsRes, paychecksRes] = await Promise.all([
       supabase
@@ -86,7 +73,7 @@ export default function IncomePage() {
     setShifts(shiftsRes.data || []);
     setPaychecks(paychecksRes.data || []);
     setLoading(false);
-  }, [user?.id, selectedMonth, getMonthRange]);
+  }, [user?.id, selectedMonth]);
 
   useEffect(() => {
     fetchProfile();
@@ -115,7 +102,8 @@ export default function IncomePage() {
 
   /* ── month navigation ── */
   const navigateMonth = (dir) => {
-    const next = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + dir, 1);
+    const { anchorMonth } = getPayCycle(selectedMonth);
+    const next = new Date(anchorMonth.getFullYear(), anchorMonth.getMonth() + dir, 1);
     if (dir > 0 && isFutureMonth(next)) return;
     setSelectedMonth(next);
   };
@@ -196,9 +184,9 @@ export default function IncomePage() {
           </button>
           <span className={styles.monthLabel}>{formatMonthYear(selectedMonth)}</span>
           <button
-            className={`${styles.monthArrow} ${isFutureMonth(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 1)) ? styles.monthArrowDisabled : ''}`}
+            className={`${styles.monthArrow} ${isFutureMonth(new Date(getPayCycle(selectedMonth).anchorMonth.getFullYear(), getPayCycle(selectedMonth).anchorMonth.getMonth() + 1, 1)) ? styles.monthArrowDisabled : ''}`}
             onClick={() => navigateMonth(1)}
-            disabled={isFutureMonth(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 1))}
+            disabled={isFutureMonth(new Date(getPayCycle(selectedMonth).anchorMonth.getFullYear(), getPayCycle(selectedMonth).anchorMonth.getMonth() + 1, 1))}
             aria-label="Next month"
           >
             ›

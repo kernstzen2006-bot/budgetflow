@@ -19,7 +19,7 @@ import {
 import AppLayout from '@/components/AppLayout';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/AuthContext';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, getPayCycle } from '@/lib/utils';
 import styles from './Analytics.module.css';
 
 // ---------------------------------------------------------------------------
@@ -42,66 +42,57 @@ const FALLBACK_COLORS = [
 // ---------------------------------------------------------------------------
 function getDateRange(rangeKey) {
   const now = new Date();
-  let start;
+  const currentAnchor = getPayCycle(now).anchorMonth;
 
   switch (rangeKey) {
     case 'this_month':
-      start = new Date(now.getFullYear(), now.getMonth(), 1);
-      break;
-    case 'last_3_months':
-      start = new Date(now.getFullYear(), now.getMonth() - 2, 1);
-      break;
-    case 'last_6_months':
-      start = new Date(now.getFullYear(), now.getMonth() - 5, 1);
-      break;
-    case 'this_year':
-      start = new Date(now.getFullYear(), 0, 1);
-      break;
+      return getPayCycle(currentAnchor);
+    case 'last_3_months': {
+      const pastAnchor = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 2, 1);
+      return { start: getPayCycle(pastAnchor).start, end: getPayCycle(currentAnchor).end };
+    }
+    case 'last_6_months': {
+      const pastAnchor = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 5, 1);
+      return { start: getPayCycle(pastAnchor).start, end: getPayCycle(currentAnchor).end };
+    }
+    case 'this_year': {
+      const pastAnchor = new Date(currentAnchor.getFullYear(), 0, 1);
+      return { start: getPayCycle(pastAnchor).start, end: getPayCycle(currentAnchor).end };
+    }
     default:
-      start = new Date(now.getFullYear(), now.getMonth(), 1);
+      return getPayCycle(currentAnchor);
   }
-
-  return {
-    start: start.toISOString().slice(0, 10),
-    end: now.toISOString().slice(0, 10),
-  };
 }
 
 function getPreviousRange(rangeKey) {
   const now = new Date();
-  let start, end;
+  const currentAnchor = getPayCycle(now).anchorMonth;
 
   switch (rangeKey) {
     case 'this_month': {
-      start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      end = new Date(now.getFullYear(), now.getMonth(), 0);
-      break;
+      const prevAnchor = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 1, 1);
+      return getPayCycle(prevAnchor);
     }
     case 'last_3_months': {
-      start = new Date(now.getFullYear(), now.getMonth() - 5, 1);
-      end = new Date(now.getFullYear(), now.getMonth() - 2, 0);
-      break;
+      const prevAnchorStart = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 5, 1);
+      const prevAnchorEnd = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 3, 1);
+      return { start: getPayCycle(prevAnchorStart).start, end: getPayCycle(prevAnchorEnd).end };
     }
     case 'last_6_months': {
-      start = new Date(now.getFullYear(), now.getMonth() - 11, 1);
-      end = new Date(now.getFullYear(), now.getMonth() - 5, 0);
-      break;
+      const prevAnchorStart = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 11, 1);
+      const prevAnchorEnd = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 6, 1);
+      return { start: getPayCycle(prevAnchorStart).start, end: getPayCycle(prevAnchorEnd).end };
     }
     case 'this_year': {
-      start = new Date(now.getFullYear() - 1, 0, 1);
-      end = new Date(now.getFullYear() - 1, 11, 31);
-      break;
+      const prevAnchorStart = new Date(currentAnchor.getFullYear() - 1, 0, 1);
+      const prevAnchorEnd = new Date(currentAnchor.getFullYear() - 1, 11, 1);
+      return { start: getPayCycle(prevAnchorStart).start, end: getPayCycle(prevAnchorEnd).end };
     }
     default: {
-      start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      end = new Date(now.getFullYear(), now.getMonth(), 0);
+      const prevAnchor = new Date(currentAnchor.getFullYear(), currentAnchor.getMonth() - 1, 1);
+      return getPayCycle(prevAnchor);
     }
   }
-
-  return {
-    start: start.toISOString().slice(0, 10),
-    end: end.toISOString().slice(0, 10),
-  };
 }
 
 // ---------------------------------------------------------------------------
